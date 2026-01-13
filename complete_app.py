@@ -114,7 +114,6 @@ def setup_database():
         return False
     
     try:
-        # Create all tables
         tables = [
             """CREATE TABLE IF NOT EXISTS admin_users (
                 ID INT NOT NULL AUTO_INCREMENT,
@@ -215,7 +214,7 @@ def setup_database():
 # Initialize database on startup
 setup_database()
 
-# -------------------- SKILL MAP --------------------
+# SKILL MAP
 SKILL_MAP = {
     "Data Science": {
         "keywords": ["tensorflow", "keras", "pytorch", "machine learning", "flask", "streamlit", "data", "ml"],
@@ -258,7 +257,6 @@ def show_pdf(path):
         unsafe_allow_html=True
     )
 
-####
 def parse_resume(path, job_skills):
     try:
         data = ResumeParser(path).get_extracted_data()
@@ -297,7 +295,7 @@ def extract_skills(resume_text, job_skills):
             matched_skills.append(skill.title())
 
     return matched_skills
-####
+
 def detect_field(skills):
     for field, data in SKILL_MAP.items():
         for skill in skills:
@@ -313,7 +311,7 @@ def get_user_level(years):
     else:
         return "Expert"
 
-####
+
 def calculate_resume_score(resume_data, resume_text, job_skills):
     score = 0
     text = resume_text.lower()
@@ -611,23 +609,12 @@ def user_mode():
                         with open(save_path, "wb") as f:
                             f.write(pdf_file.read())
                         
-                        show_pdf(save_path)
-###                        
+                        show_pdf(save_path)                       
                         # Parse resume
                         resume_data = parse_resume(
                             save_path,
                             st.session_state.selected_req_skills
-                        )
-
-                        # resume_text = read_pdf(save_path)
-
-                        # resume_score = calculate_resume_score(
-                        #     resume_data,
-                        #     resume_text,    
-                        #     st.session_state.selected_req_skills
-                        # )
-###
-                        
+                        )                     
                         st.markdown("---")
                         st.subheader("📊 Resume Analysis")
                         
@@ -680,7 +667,6 @@ def user_mode():
                             resume_text,
                             st.session_state.selected_req_skills
                         )
-                        # resume_score = calculate_resume_score(resume_data, st.session_state.selected_req_skills)
                         
                         st.markdown("---")
                         col1, col2, col3 = st.columns(3)
@@ -692,7 +678,6 @@ def user_mode():
                         st.subheader("🎯 Job Match Analysis")
                         
                         user_skills_list = [s.lower() for s in skills]
-                        #required_skills_list = [s.strip().lower() for s in st.session_state.selected_req_skills.split(",")]
                         required_skills_list = [
                             s.strip().lower()
                             for s in st.session_state.selected_req_skills.split(",")
