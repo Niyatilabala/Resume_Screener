@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: resume-analyzer
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: resume-analyzer
+
+  template:
+    metadata:
+      labels:
+        app: resume-analyzer
+
+    spec:
+      containers:
+      - name: resume-analyzer
+
+        image: containerization_tools-streamlit:latest
+
+        ports:
+        - containerPort: 8501

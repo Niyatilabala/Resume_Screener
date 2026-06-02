@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: sra_mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: sra_app
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  streamlit:
+    build: .
+    container_name: sra_streamlit
+
+    ports:
+      - "8501:8501"
+
+    depends_on:
+      - mysql
+
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: rootpassword
+      DB_NAME: sra_app
+
+    volumes:
+      - .:/app
+
+volumes:
+  mysql_data:
